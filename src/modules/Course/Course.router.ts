@@ -5,23 +5,23 @@ import { AuthMiddleware } from "@/modules/Auth";
 const router = Router();
 const courseController = CourseControllerFactory.getInstance();
 
-router.post("/course", AuthMiddleware.verifyToken, (req, res) =>
+router.post("/courses", AuthMiddleware.verifyToken, (req, res) =>
   courseController.create(req, res),
 );
 
-router.delete("/course/:id", AuthMiddleware.verifyToken, (req, res) =>
+router.delete("/courses/:id", AuthMiddleware.verifyToken, (req, res) =>
   courseController.delete(req, res),
 );
 
-router.get("/course/:id", AuthMiddleware.verifyToken, (req, res) =>
+router.get("/courses/:id", AuthMiddleware.verifyToken, (req, res) =>
   courseController.getById(req, res),
 );
 
-router.put("/course/:id", AuthMiddleware.verifyToken, (req, res) =>
+router.put("/courses/:id", AuthMiddleware.verifyToken, (req, res) =>
   courseController.update(req, res),
 );
 
-router.get("/course", AuthMiddleware.verifyToken, (req, res) =>
+router.get("/courses", AuthMiddleware.verifyToken, (req, res) =>
   courseController.findByFilters(req, res),
 );
 
