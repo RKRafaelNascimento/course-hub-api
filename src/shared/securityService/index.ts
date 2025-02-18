@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import jwt, { SignOptions } from "jsonwebtoken";
+import jwt, { JwtPayload, SignOptions } from "jsonwebtoken";
 import { ISecurityService } from "./interfaces";
 
 export class SecurityService implements ISecurityService {
@@ -18,5 +18,9 @@ export class SecurityService implements ISecurityService {
       expiresIn: expiresIn as SignOptions["expiresIn"],
     };
     return jwt.sign(payload, process.env.JWT_SECRET || "JWT_SECRET", options);
+  }
+
+  verifyToken(token: string): string | JwtPayload {
+    return jwt.verify(token, process.env.JWT_SECRET || "JWT_SECRET");
   }
 }
