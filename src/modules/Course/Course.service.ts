@@ -38,4 +38,33 @@ export class CourseService implements ICourseService {
 
     return this.courseRepository.delete(id);
   }
+
+  async update(
+    id: number,
+    data: Omit<Partial<ICourse>, "id">,
+  ): Promise<ICourse> {
+    const existingCourse = await this.getById(id);
+
+    if (!existingCourse) {
+      throw new NotFoundError(
+        "Course not found",
+        CourseErrorCode.COURSE_NOT_FOUND,
+      );
+    }
+
+    if (data && data.instructorId) {
+      const instructor = await this.instructorService.getById(
+        data.instructorId,
+      );
+
+      if (!instructor) {
+        throw new NotFoundError(
+          "Instructor not found",
+          CourseErrorCode.INSTRUCTOR_NOT_FOUND,
+        );
+      }
+    }
+
+    return this.courseRepository.update(id, data);
+  }
 }

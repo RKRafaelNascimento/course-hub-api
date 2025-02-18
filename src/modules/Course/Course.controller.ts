@@ -101,4 +101,35 @@ export class CourseController {
       return res.status(responseError.statusCode).json(responseError);
     }
   }
+
+  async update(req: Request, res: Response): Promise<Response> {
+    try {
+      const courseId = Number(req.params.id);
+      if (isNaN(courseId)) {
+        throw new BadRequestError(
+          "Invalid course ID",
+          CourseErrorCode.INVALID_COURSE_ID,
+        );
+      }
+
+      const { value, error } = this.validatorService.validate<
+        Omit<Partial<ICourse>, "id">
+      >(CourseSchema.update, req.body);
+
+      if (error) {
+        throw new BadRequestError(
+          "Missing or invalid parameters",
+          CourseErrorCode.MISSING_OR_INVALID_PARAMETERS,
+          this.validatorService.formatErrorMessage(error),
+        );
+      }
+
+      const updatedCourse = await this.courseService.update(courseId, value);
+
+      return res.status(StatusCodes.OK).json(updatedCourse);
+    } catch (error) {
+      const responseError = HttpHelpers.handleError(error);
+      return res.status(responseError.statusCode).json(responseError);
+    }
+  }
 }
