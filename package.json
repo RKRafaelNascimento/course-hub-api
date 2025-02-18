@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start:dev": "dotenv -e .env.development -- ts-node-dev --poll --respawn --transpile-only --no-notify -r tsconfig-paths/register src/server.ts",
+    "seed:dev": "dotenv -e .env.development -- ts-node-dev --poll --respawn --transpile-only --no-notify -r tsconfig-paths/register ./src/infra/seeders/index.ts",
     "test": "jest --passWithNoTests",
     "test:coverage": "jest --coverage",
     "test:watch": "npm test --watch"
