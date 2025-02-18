@@ -23,6 +23,22 @@ async function main() {
     });
 
     logger.info({ msg: "Admin user seeded successfully!" });
+
+    const instructors = [
+      { name: "John Doe", email: "john.doe@example.com" },
+      { name: "Jane Smith", email: "jane.smith@example.com" },
+      { name: "Alice Johnson", email: "alice.johnson@example.com" },
+    ];
+
+    for (const instructor of instructors) {
+      await prisma.instructor.upsert({
+        where: { email: instructor.email },
+        update: {},
+        create: instructor,
+      });
+    }
+
+    logger.info({ msg: "Instructors seeded successfully!" });
   } catch (error) {
     logger.error({ msg: "Error seeding admin user:", error });
   } finally {
