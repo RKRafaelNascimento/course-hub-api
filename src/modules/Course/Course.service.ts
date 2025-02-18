@@ -1,5 +1,10 @@
 import { NotFoundError } from "@/shared/errors";
-import { ICourseRepository, ICourseService, ICourse } from "./interfaces";
+import {
+  ICourseRepository,
+  ICourseService,
+  ICourse,
+  ICourseFilters,
+} from "./interfaces";
 import { CourseErrorCode } from "./error";
 import { IInstructorService } from "@/modules/Instructor/interfaces";
 
@@ -66,5 +71,9 @@ export class CourseService implements ICourseService {
     }
 
     return this.courseRepository.update(id, data);
+  }
+
+  async findByFilters(filters: ICourseFilters): Promise<ICourse[]> {
+    return this.courseRepository.findByFilters(filters);
   }
 }

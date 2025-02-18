@@ -27,4 +27,14 @@ const update = Joi.object({
       "At least one property (title, description, duration, instructorId) must be provided for update.",
   });
 
-export = { create, courseDelete, getById, update };
+const findByFilters = Joi.object({
+  title: Joi.string()
+    .optional()
+    .pattern(/^[^'"]+$/)
+    .messages({
+      "string.pattern.base": "Title cannot contain quotes (' or \")",
+    }),
+  instructorId: Joi.number().integer().positive().optional(),
+});
+
+export = { create, courseDelete, getById, update, findByFilters };

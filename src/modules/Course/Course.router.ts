@@ -21,4 +21,8 @@ router.put("/course/:id", AuthMiddleware.verifyToken, (req, res) =>
   courseController.update(req, res),
 );
 
+router.get("/course", AuthMiddleware.verifyToken, (req, res) =>
+  courseController.findByFilters(req, res),
+);
+
 export default router;

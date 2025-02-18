@@ -132,4 +132,28 @@ export class CourseController {
       return res.status(responseError.statusCode).json(responseError);
     }
   }
+
+  async findByFilters(req: Request, res: Response): Promise<void> {
+    try {
+      const { value, error } = this.validatorService.validate(
+        CourseSchema.findByFilters,
+        req.query,
+      );
+
+      if (error) {
+        throw new BadRequestError(
+          "Missing or invalid parameters",
+          CourseErrorCode.MISSING_OR_INVALID_PARAMETERS,
+          this.validatorService.formatErrorMessage(error),
+        );
+      }
+
+      const courses = await this.courseService.findByFilters(value);
+
+      res.status(StatusCodes.OK).json(courses);
+    } catch (error) {
+      const responseError = HttpHelpers.handleError(error);
+      res.status(responseError.statusCode).json(responseError);
+    }
+  }
 }

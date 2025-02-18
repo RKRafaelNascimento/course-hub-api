@@ -1,4 +1,4 @@
-import { ICourseRepository, ICourse } from "./interfaces";
+import { ICourseRepository, ICourse, ICourseFilters } from "./interfaces";
 import { PrismaClient } from "@prisma/client";
 import { IDatabaseClient } from "@/infra/interfaces";
 
@@ -29,5 +29,16 @@ export class CourseRepository implements ICourseRepository {
       where: { id },
       data,
     });
+  }
+
+  async findByFilters(filters: ICourseFilters): Promise<ICourse[]> {
+    const where = {
+      ...(filters.title && {
+        title: { contains: filters.title.toLowerCase() },
+      }),
+      ...(filters.instructorId && { instructorId: filters.instructorId }),
+    };
+
+    return this.ormClient.course.findMany({ where });
   }
 }
