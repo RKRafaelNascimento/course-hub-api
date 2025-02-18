@@ -41,3 +41,5 @@ lerna-debug.log*
 # dbmysql
 dbsql*
 database.sqlite3
+prisma/*.db
+prisma/*.db-journal
