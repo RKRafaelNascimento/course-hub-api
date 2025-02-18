@@ -11,4 +11,8 @@ const courseDelete = Joi.object({
   id: Joi.number().integer().required(),
 });
 
-export = { create, courseDelete };
+const getById = Joi.object({
+  id: Joi.number().integer().required(),
+});
+
+export = { create, courseDelete, getById };

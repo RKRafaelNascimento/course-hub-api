@@ -13,4 +13,8 @@ router.delete("/course/:id", AuthMiddleware.verifyToken, (req, res) =>
   courseController.delete(req, res),
 );
 
+router.get("/course/:id", AuthMiddleware.verifyToken, (req, res) =>
+  courseController.getById(req, res),
+);
+
 export default router;
