@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { ICourseService, ICourse } from "./interfaces";
+import { ICourseService, ICourse, ICourseController } from "./interfaces";
 import { CourseSchema } from "./schemas";
 import { CourseErrorCode } from "./error";
 import { HttpHelpers } from "@/shared/httpHelper";
@@ -7,7 +7,7 @@ import { BadRequestError, NotFoundError } from "@/shared/errors";
 import { IValidatorService } from "@/shared/validator/interfaces";
 import { StatusCodes } from "http-status-codes";
 
-export class CourseController {
+export class CourseController implements ICourseController {
   constructor(
     private courseService: ICourseService,
     private validatorService: IValidatorService,
@@ -43,7 +43,7 @@ export class CourseController {
     }
   }
 
-  async delete(req: Request, res: Response): Promise<Response> {
+  async delete(req: Request, res: Response): Promise<void> {
     try {
       const { value, error } = this.validatorService.validate<{ id: number }>(
         CourseSchema.courseDelete,
@@ -62,14 +62,14 @@ export class CourseController {
 
       await this.courseService.delete(courseId);
 
-      return res.status(204).send();
+      res.status(204).send();
     } catch (error) {
       const responseError = HttpHelpers.handleError(error);
-      return res.status(responseError.statusCode).json(responseError);
+      res.status(responseError.statusCode).json(responseError);
     }
   }
 
-  async getById(req: Request, res: Response): Promise<Response> {
+  async getById(req: Request, res: Response): Promise<void> {
     try {
       const { value, error } = this.validatorService.validate<{ id: number }>(
         CourseSchema.getById,
@@ -95,14 +95,14 @@ export class CourseController {
         );
       }
 
-      return res.status(StatusCodes.OK).json(course);
+      res.status(StatusCodes.OK).json(course);
     } catch (error) {
       const responseError = HttpHelpers.handleError(error);
-      return res.status(responseError.statusCode).json(responseError);
+      res.status(responseError.statusCode).json(responseError);
     }
   }
 
-  async update(req: Request, res: Response): Promise<Response> {
+  async update(req: Request, res: Response): Promise<void> {
     try {
       const courseId = Number(req.params.id);
       if (isNaN(courseId)) {
@@ -126,10 +126,10 @@ export class CourseController {
 
       const updatedCourse = await this.courseService.update(courseId, value);
 
-      return res.status(StatusCodes.OK).json(updatedCourse);
+      res.status(StatusCodes.OK).json(updatedCourse);
     } catch (error) {
       const responseError = HttpHelpers.handleError(error);
-      return res.status(responseError.statusCode).json(responseError);
+      res.status(responseError.statusCode).json(responseError);
     }
   }
 
