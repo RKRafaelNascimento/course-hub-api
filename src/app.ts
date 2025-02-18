@@ -1,12 +1,13 @@
 import { createServer, Server } from "http";
 import express, { Application } from "express";
-import { applicationConfig } from "@/config";
+import { applicationConfig, corsConfig } from "@/config";
 import { ILogger } from "@/shared/logger/interfaces";
 import { Logger } from "@/shared/logger";
 import { DatabaseClient } from "@/infra/database";
 import * as routes from "@/modules";
 import swaggerUi from "swagger-ui-express";
 import { swaggerConfig } from "@/shared/swagger/swaggerConfig";
+import cors from "cors";
 
 export default class App {
   private readonly application: Application;
@@ -32,6 +33,7 @@ export default class App {
     this.logger.info({ msg: "Initializing global middle" });
     this.application.use(express.json());
     this.application.use(express.urlencoded({ extended: false }));
+    this.application.use(cors(corsConfig));
 
     this.application.use(
       "/api-docs",
