@@ -5,6 +5,8 @@ import { ILogger } from "@/shared/logger/interfaces";
 import { Logger } from "@/shared/logger";
 import { DatabaseClient } from "@/infra/database";
 import * as routes from "@/modules";
+import swaggerUi from "swagger-ui-express";
+import { swaggerConfig } from "@/shared/swagger/swaggerConfig";
 
 export default class App {
   private readonly application: Application;
@@ -30,6 +32,12 @@ export default class App {
     this.logger.info({ msg: "Initializing global middle" });
     this.application.use(express.json());
     this.application.use(express.urlencoded({ extended: false }));
+
+    this.application.use(
+      "/api-docs",
+      swaggerUi.serve,
+      swaggerUi.setup(swaggerConfig),
+    );
   }
 
   public async stopApplication(): Promise<void> {
