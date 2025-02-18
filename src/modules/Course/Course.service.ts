@@ -21,4 +21,21 @@ export class CourseService implements ICourseService {
 
     return this.courseRepository.create(data);
   }
+
+  async getById(id: number): Promise<ICourse | null> {
+    return this.courseRepository.getById(id);
+  }
+
+  async delete(id: number): Promise<void> {
+    const existingCourse = await this.getById(id);
+
+    if (!existingCourse) {
+      throw new NotFoundError(
+        "Course not found",
+        CourseErrorCode.COURSE_NOT_FOUND,
+      );
+    }
+
+    return this.courseRepository.delete(id);
+  }
 }

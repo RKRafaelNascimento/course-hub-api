@@ -9,4 +9,8 @@ router.post("/course", AuthMiddleware.verifyToken, (req, res) =>
   courseController.create(req, res),
 );
 
+router.delete("/course/:id", AuthMiddleware.verifyToken, (req, res) =>
+  courseController.delete(req, res),
+);
+
 export default router;

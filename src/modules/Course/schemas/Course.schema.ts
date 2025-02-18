@@ -7,4 +7,8 @@ const create = Joi.object({
   instructorId: Joi.number().integer().required(),
 });
 
-export = { create };
+const courseDelete = Joi.object({
+  id: Joi.number().integer().required(),
+});
+
+export = { create, courseDelete };
