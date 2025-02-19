@@ -7,7 +7,7 @@
     "start": "node ./dist/src/server.js",
     "start:dev": "dotenv -e .env.development -- ts-node-dev --poll --respawn --transpile-only --no-notify -r tsconfig-paths/register src/server.ts",
     "seed:dev": "dotenv -e .env.development -- ts-node-dev --poll --respawn --transpile-only --no-notify -r tsconfig-paths/register ./src/infra/seeders/index.ts",
-    "migrate": "prisma migrate dev",
+    "migrate:dev": "dotenv -e .env.development prisma migrate dev",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "test": "jest --passWithNoTests",
