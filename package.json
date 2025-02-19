@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc && tsc-alias",
-    "start": "node ./dist/server.js",
+    "start": "node ./dist/src/server.js",
     "start:dev": "dotenv -e .env.development -- ts-node-dev --poll --respawn --transpile-only --no-notify -r tsconfig-paths/register src/server.ts",
     "seed:dev": "dotenv -e .env.development -- ts-node-dev --poll --respawn --transpile-only --no-notify -r tsconfig-paths/register ./src/infra/seeders/index.ts",
     "migrate": "prisma migrate dev",
